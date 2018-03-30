@@ -1,3 +1,7 @@
+const printToDom = (domString, divId) => {
+    document.getElementById(divId).innerHTML = domString;
+};
+
 const buildDomString = fancyArray => {
     let domString = "";
     fancyArray.forEach((planet) => {
@@ -5,6 +9,7 @@ const buildDomString = fancyArray => {
         domString += `<img src="${planet.imageUrl}">`;
         domString += `</div>`;
     });
+    printToDom(domString, 'card-holder');
 }
 
 const startApplication = () => {
