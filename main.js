@@ -6,9 +6,9 @@ const buildDomString = fancyArray => {
     let domString = "";
     fancyArray.forEach((planet) => {
         domString += `<div class="card">`;
-        domString += `<img src="${planet.imageUrl}" class="image">`;
+        domString += `<div class="name">${planet.name}</div>`;
         domString += `<div class="middle">`
-        domString +=    `<div class="name">${planet.name}</div>`;
+        domString +=    `<img src="${planet.imageUrl}" class="image">`;
         domString += `</div> </div>`;
     });
     printToDom(domString, 'card-holder');
