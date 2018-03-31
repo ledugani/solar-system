@@ -7,8 +7,14 @@ const buildDomString = fancyArray => {
     fancyArray.forEach((planet) => {
         domString += `<div class="card">`;
         domString += `<div class="name">${planet.name}</div>`;
-        domString += `<div class="middle">`
-        domString +=    `<img src="${planet.imageUrl}" class="image">`;
+        domString += `<div class="middle">`;
+        if (`${planet.name}` === `Jupiter`) {
+            domString += `<img src="${planet.imageUrl}" id='jupiter' class="image">`;
+        } else if (`${planet.name}` === `Saturn`) {
+            domString += `<img src="${planet.imageUrl}" id='saturn' class="image">`;
+        } else {
+            domString +=    `<img src="${planet.imageUrl}" class="image">`;
+        }
         domString += `</div> </div>`;
     });
     printToDom(domString, 'card-holder');
