@@ -68,7 +68,7 @@
 }
 
 .card:hover .name {
-    opacity: 0.3;
+    opacity: 0;
 }
 
 .card:hover .middle {
