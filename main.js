@@ -1,7 +1,11 @@
+/*---------------------------------------- UNIVERSAL FX ----------------------------------------*/
 // universal print to dom function
+
 const printToDom = (domString, divId) => {
     document.getElementById(divId).innerHTML = domString;
 };
+
+/*---------------------------------------- INITIAL CARDS ----------------------------------------*/
 
 // initial domString to load on page
 
@@ -34,7 +38,7 @@ function executeThisCodeAfterFileLoaded () {
     buildDomString(data.planets);
 }
 
-const startApplication = () => {
+const runSmallCards = () => {
     let myRequest = new XMLHttpRequest();
     myRequest.addEventListener("load", executeThisCodeAfterFileLoaded);
     myRequest.addEventListener("error", executeThisCodeIfXHRFails);
@@ -42,21 +46,11 @@ const startApplication = () => {
     myRequest.send();
 }
 
-startApplication();
+runSmallCards();
 
-/*---------------------------------- BIG CARDS ----------------------------------*/
+/*------------------------------------------ BIG CARDS ----------------------------------------*/
 
 const modal = document.getElementById('myModal');
-
-// XHR for Big Cards
-
-const xhrForBigCard = () => {
-    let myNewRequest = new XMLHttpRequest();
-    myNewRequest.addEventListener("load", addPlanetEventListeners);
-    myNewRequest.addEventListener("error", executeThisCodeIfXHRFails);
-    myNewRequest.open("GET", "planets.json");
-    myNewRequest.send();
-}
 
 // domString for big cards
 
@@ -83,18 +77,37 @@ const buildBigCard = fancierArray => {
     }
 }
 
-const displayModalBox = () => {
+const displayModalBox = (input) => {
     const newData = JSON.parse(this.responseText);
-    buildBigCard(newData.planets);
+    for(let i=0; i < newData.length; i++) {
+        if (newData[i] == input) {
+            buildBigCard(newData.planets[i]);
+        }
+    }
+}
+
+const planetClick = (e) => {
+    const planet = e.target.parentNode.children[1];
+    displayModalBox(planet);
 }
 
 // Event Listener for each card
 
 const addPlanetEventListeners = () => {
-    const planetButtons = document.getElementsByClassName('image');
+    const planetButtons = document.getElementsByClassName('middle');
     for(let i=0; i < planetButtons.length; i++) {
-        planetButtons[i].addEventListener('click', displayModalBox);
+        planetButtons[i].addEventListener('click', planetClick);
     }
 };
+
+// XHR for Big Cards
+
+const xhrForBigCard = () => {
+    let myNewRequest = new XMLHttpRequest();
+    myNewRequest.addEventListener("load", addPlanetEventListeners);
+    myNewRequest.addEventListener("error", executeThisCodeIfXHRFails);
+    myNewRequest.open("GET", "planets.json");
+    myNewRequest.send();
+}
 
 xhrForBigCard();
