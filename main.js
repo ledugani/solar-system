@@ -25,6 +25,7 @@ const buildDomString = fancyArray => {
         domString += `</div> </div>`;
     });
     printToDom(domString, 'card-holder');
+    addPlanetEventListeners();
 }
 
 // XHR for Initial Dom String
@@ -78,36 +79,41 @@ const buildBigCard = fancierArray => {
 }
 
 const displayModalBox = (input) => {
-    const newData = JSON.parse(this.responseText);
-    for(let i=0; i < newData.length; i++) {
-        if (newData[i] == input) {
-            buildBigCard(newData.planets[i]);
+
+    // XHR for Big Cards
+    const xhrForBigCard = () => {
+        let myNewRequest = new XMLHttpRequest();
+        myNewRequest.addEventListener("load", printSinglePlanet);
+        myNewRequest.addEventListener("error", executeThisCodeIfXHRFails);
+        myNewRequest.open("GET", "planets.json");
+        myNewRequest.send();
+    }
+
+    function printSinglePlanet() {
+        const newData = JSON.parse(this.responseText).planets;
+        for(let i=0; i < newData.length; i++) {
+            if (newData[i].name == input) {
+                buildBigCard(newData[i]);
+            }
         }
     }
 }
 
 const planetClick = (e) => {
-    const planet = e.target.parentNode.children[1];
+    let planet = "";
+    if (e.target.classList.contains("image")) {
+        planet = e.target.parentNode.parentNode.children[0].innerHTML;
+    }
+    e.target.parentNode.children[0].innerHTML;
     displayModalBox(planet);
+    console.log(e);
 }
 
 // Event Listener for each card
 
 const addPlanetEventListeners = () => {
-    const planetButtons = document.getElementsByClassName('middle');
+    const planetButtons = document.getElementsByClassName('card');
     for(let i=0; i < planetButtons.length; i++) {
         planetButtons[i].addEventListener('click', planetClick);
     }
 };
-
-// XHR for Big Cards
-
-const xhrForBigCard = () => {
-    let myNewRequest = new XMLHttpRequest();
-    myNewRequest.addEventListener("load", addPlanetEventListeners);
-    myNewRequest.addEventListener("error", executeThisCodeIfXHRFails);
-    myNewRequest.open("GET", "planets.json");
-    myNewRequest.send();
-}
-
-xhrForBigCard();
