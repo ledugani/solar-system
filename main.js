@@ -102,9 +102,11 @@ const displayModalBox = (input) => {
 const planetClick = (e) => {
     let planet = "";
     if (e.target.classList.contains("image")) {
+        // Assign the value of clicked item (name of planet) to planet.
         planet = e.target.parentNode.parentNode.children[0].innerHTML;
+    } else if (e.target.classList.contains("name")) {
+        planet = e.target.innerHTML;
     }
-    e.target.parentNode.children[0].innerHTML;
     displayModalBox(planet);
     console.log(e);
 }
