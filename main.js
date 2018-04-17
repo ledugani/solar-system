@@ -7,6 +7,8 @@ const printToDom = (domString, divId) => {
 
 /*---------------------------------------- INITIAL CARDS ----------------------------------------*/
 
+const allPlanets = document.getElementById('card-holder');
+
 // initial domString to load on page
 
 const buildDomString = fancyArray => {
@@ -20,7 +22,7 @@ const buildDomString = fancyArray => {
         } else if (`${planet.name}` === `Saturn`) {
             domString += `<img src="${planet.imageUrl}" id='saturn planet' class="image">`;
         } else {
-            domString +=    `<img src="${planet.imageUrl}" id='planet' class="image">`;
+            domString +=    `<img src="${planet.imageUrl}" id='${planet.name}' class="image">`;
         }
         domString += `</div> </div>`;
     });
@@ -55,27 +57,32 @@ const modal = document.getElementById('myModal');
 
 // domString for big cards
 
-const buildBigCard = fancierArray => {
-    let newDomString = "";
-    fancierArray.forEach((planet) => {
-        newDomString += `<div class="modal-content">`;
-        newDomString +=     `<span class="close">&times;</span>`;
-        newDomString +=     `<h1>${planet.name}</h1>`;
-        newDomString +=     `<img src="${planet.imageUrl}" class="image">`;
-        if (`${planet.isGasPlanet}`) {
-            newDomString +=     `<h3>Gas Planet</h3>`;
-        } else {
-            newDomString +=     `<h3>Terrestrial Planet</h3>`;
-        } 
-        newDomString +=     `<h3>Number of Moons: ${planet.numberOfMoons}</h3>`;
-        newDomString +=     `<h3>Name of Largest Moon: ${planet.nameOfLargestMoon}</h3>`;
-        newDomString +=     `<p>${planet.description}</p>`;
-        newDomString += `</div>`;
-    });
-    modal.style.display = "block";
-    span.onclick = function() {
-        modal.style.display = "none";
-    }
+const buildBigCard = planetChosen => {
+    allPlanets.innerHTML = '';
+
+// Everything works up to this point
+
+    // let newDomString = "";
+    // for (let x = 0; x < planetChosen.length; x++) {
+    //     newDomString += `<div class="modal-content">`;
+    //     newDomString +=     `<span class="close">&times;</span>`;
+    //     newDomString +=     `<h1>${planet.name}</h1>`;
+    //     newDomString +=     `<img src="${planet.imageUrl}" class="image">`;
+    //     if (`${planet.isGasPlanet}`) {
+    //         newDomString +=     `<h3>Gas Planet</h3>`;
+    //     } else {
+    //         newDomString +=     `<h3>Terrestrial Planet</h3>`;
+    //     } 
+    //     newDomString +=     `<h3>Number of Moons: ${planet.numberOfMoons}</h3>`;
+    //     newDomString +=     `<h3>Name of Largest Moon: ${planet.nameOfLargestMoon}</h3>`;
+    //     newDomString +=     `<p>${planet.description}</p>`;
+    //     newDomString += `</div>`;
+    // }
+    // modal.style.display = "block";
+
+    // span.onclick = function() {
+    //     modal.style.display = "none";
+    // }
 }
 
 const displayModalBox = (input) => {
@@ -91,24 +98,28 @@ const displayModalBox = (input) => {
 
     function printSinglePlanet() {
         const newData = JSON.parse(this.responseText).planets;
+
         for(let i=0; i < newData.length; i++) {
-            if (newData[i].name == input) {
-                buildBigCard(newData[i]);
+            if (newData[i].name === input) {
+                let selectedPlanet = newData[i];
+                buildBigCard(selectedPlanet);
             }
         }
     }
+    xhrForBigCard();
+    printSinglePlanet();
 }
 
 const planetClick = (e) => {
-    let planet = "";
-    if (e.target.classList.contains("image")) {
-        // Assign the value of clicked item (name of planet) to planet.
-        planet = e.target.parentNode.parentNode.children[0].innerHTML;
-    } else if (e.target.classList.contains("name")) {
-        planet = e.target.innerHTML;
-    }
+    let planet = e.target.id;
+    // if (e.target.classList.contains("image")) {
+    //     // Assign the value of clicked item (name of planet) to planet.
+    //     planet = e.target.parentNode.parentNode.children[0].innerHTML;
+    // } else if (e.target.classList.contains("name")) {
+    //     planet = e.target.innerHTML;
+    // }
+    // planet = name of planet clicked
     displayModalBox(planet);
-    console.log(e);
 }
 
 // Event Listener for each card
