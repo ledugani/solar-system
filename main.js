@@ -17,13 +17,13 @@ const buildDomString = fancyArray => {
         domString += `<div class="card">`;
         domString += `<div class="name">${planet.name}</div>`;
         domString += `<div class="middle">`;
-        if (`${planet.name}` === `Jupiter`) {
-            domString += `<img src="${planet.imageUrl}" id='jupiter planet' class="image">`;
-        } else if (`${planet.name}` === `Saturn`) {
-            domString += `<img src="${planet.imageUrl}" id='saturn planet' class="image">`;
-        } else {
+        // if (`${planet.name}` === `Jupiter`) {
+        //     domString += `<img src="${planet.imageUrl}" id='jupiter planet' class="image">`;
+        // } else if (`${planet.name}` === `Saturn`) {
+        //     domString += `<img src="${planet.imageUrl}" id='saturn planet' class="image">`;
+        // } else {
             domString +=    `<img src="${planet.imageUrl}" id='${planet.name}' class="image">`;
-        }
+
         domString += `</div> </div>`;
     });
     printToDom(domString, 'card-holder');
@@ -57,12 +57,13 @@ const modal = document.getElementById('myModal');
 const planetInfo = document.getElementById('newHolder');
 function closeFx() {
     planetInfo.style.display = "none";
+    allPlanets.style.display = "block";
 }
 
 // domString for big cards
 
 const buildBigCard = (planetChosen) => {
-    allPlanets.innerHTML = '';
+    allPlanets.style.display = 'none';
 
     let newDomString = `<div class="modal-content">`;
     newDomString +=     `<span class="close" onclick="closeFx()">&times;</span>`;
@@ -80,7 +81,7 @@ const buildBigCard = (planetChosen) => {
 
     planetInfo.innerHTML = newDomString;
 
-    // modal.style.display = "block";
+    planetInfo.style.display = "block";
 
 }
 
