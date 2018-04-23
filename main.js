@@ -54,35 +54,34 @@ runSmallCards();
 /*------------------------------------------ BIG CARDS ----------------------------------------*/
 
 const modal = document.getElementById('myModal');
+const planetInfo = document.getElementById('newHolder');
+function closeFx() {
+    planetInfo.style.display = "none";
+}
 
 // domString for big cards
 
-const buildBigCard = planetChosen => {
+const buildBigCard = (planetChosen) => {
     allPlanets.innerHTML = '';
 
-// Everything works up to this point
+    let newDomString = `<div class="modal-content">`;
+    newDomString +=     `<span class="close" onclick="closeFx()">&times;</span>`;
+    newDomString +=     `<h1>${planetChosen.name}</h1>`;
+    newDomString +=     `<img src="${planetChosen.imageUrl}" class="image">`;
+    if (`${planetChosen.isGasPlanet}`) {
+        newDomString +=     `<h3>Gas Planet</h3>`;
+    } else {
+        newDomString +=     `<h3>Terrestrial Planet</h3>`;
+    }
+    newDomString +=     `<h3>Number of Moons: ${planetChosen.numberOfMoons}</h3>`;
+    newDomString +=     `<h3>Name of Largest Moon: ${planetChosen.nameOfLargestMoon}</h3>`;
+    newDomString +=     `<p>${planetChosen.description}</p>`;
+    newDomString += `</div>`;
 
-    // let newDomString = "";
-    // for (let x = 0; x < planetChosen.length; x++) {
-    //     newDomString += `<div class="modal-content">`;
-    //     newDomString +=     `<span class="close">&times;</span>`;
-    //     newDomString +=     `<h1>${planet.name}</h1>`;
-    //     newDomString +=     `<img src="${planet.imageUrl}" class="image">`;
-    //     if (`${planet.isGasPlanet}`) {
-    //         newDomString +=     `<h3>Gas Planet</h3>`;
-    //     } else {
-    //         newDomString +=     `<h3>Terrestrial Planet</h3>`;
-    //     } 
-    //     newDomString +=     `<h3>Number of Moons: ${planet.numberOfMoons}</h3>`;
-    //     newDomString +=     `<h3>Name of Largest Moon: ${planet.nameOfLargestMoon}</h3>`;
-    //     newDomString +=     `<p>${planet.description}</p>`;
-    //     newDomString += `</div>`;
-    // }
+    planetInfo.innerHTML = newDomString;
+
     // modal.style.display = "block";
 
-    // span.onclick = function() {
-    //     modal.style.display = "none";
-    // }
 }
 
 const displayModalBox = (input) => {
@@ -107,7 +106,6 @@ const displayModalBox = (input) => {
         }
     }
     xhrForBigCard();
-    printSinglePlanet();
 }
 
 const planetClick = (e) => {
